@@ -288,6 +288,8 @@ evacuate_validate() {
 	fence_options="${fence_options} -e ${OCF_RESKEY_endpoint_type}"
     fi
 
+    fence_options="${fence_options} -D /var/log/nova/NovaEvacuate.log -v"
+
     if [ $rc != $OCF_SUCCESS ]; then
 	exit $rc
     fi
