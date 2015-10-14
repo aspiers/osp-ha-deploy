@@ -47,39 +47,39 @@ target=all
 yum install -y openstack-cinder openstack-utils python-memcached python-keystonemiddleware python-openstackclient
 
 # Pending ack from cinder team
-#openstack-config --set /etc/cinder/cinder.conf DEFAULT enable_v1_api false
-#openstack-config --set /etc/cinder/cinder.conf DEFAULT enable_v2_api true
+#crudini --set /etc/cinder/cinder.conf DEFAULT enable_v1_api false
+#crudini --set /etc/cinder/cinder.conf DEFAULT enable_v2_api true
 
-openstack-config --set /etc/cinder/cinder.conf database connection mysql://cinder:cindertest@vip-db/cinder
-openstack-config --set /etc/cinder/cinder.conf database max_retries -1
+crudini --set /etc/cinder/cinder.conf database connection mysql://cinder:cindertest@vip-db/cinder
+crudini --set /etc/cinder/cinder.conf database max_retries -1
 
-openstack-config --set /etc/cinder/cinder.conf DEFAULT auth_strategy keystone
-openstack-config --set /etc/cinder/cinder.conf keystone_authtoken identity_uri http://vip-keystone:35357/
-openstack-config --set /etc/cinder/cinder.conf keystone_authtoken auth_uri http://vip-keystone:5000/
-openstack-config --set /etc/cinder/cinder.conf keystone_authtoken admin_tenant_name services
-openstack-config --set /etc/cinder/cinder.conf keystone_authtoken admin_user cinder
-openstack-config --set /etc/cinder/cinder.conf keystone_authtoken admin_password cindertest
+crudini --set /etc/cinder/cinder.conf DEFAULT auth_strategy keystone
+crudini --set /etc/cinder/cinder.conf keystone_authtoken identity_uri http://vip-keystone:35357/
+crudini --set /etc/cinder/cinder.conf keystone_authtoken auth_uri http://vip-keystone:5000/
+crudini --set /etc/cinder/cinder.conf keystone_authtoken admin_tenant_name services
+crudini --set /etc/cinder/cinder.conf keystone_authtoken admin_user cinder
+crudini --set /etc/cinder/cinder.conf keystone_authtoken admin_password cindertest
 
-openstack-config --set /etc/cinder/cinder.conf DEFAULT notification_driver messaging
-openstack-config --set /etc/cinder/cinder.conf DEFAULT control_exchange cinder
+crudini --set /etc/cinder/cinder.conf DEFAULT notification_driver messaging
+crudini --set /etc/cinder/cinder.conf DEFAULT control_exchange cinder
 
-openstack-config --set /etc/cinder/cinder.conf DEFAULT glance_host vip-glance
+crudini --set /etc/cinder/cinder.conf DEFAULT glance_host vip-glance
 
-openstack-config --set /etc/cinder/cinder.conf DEFAULT memcache_servers  ${PHD_VAR_network_hosts_memcache}
+crudini --set /etc/cinder/cinder.conf DEFAULT memcache_servers  ${PHD_VAR_network_hosts_memcache}
 
-openstack-config --set /etc/cinder/cinder.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
-openstack-config --set /etc/cinder/cinder.conf oslo_messaging_rabbit rabbit_ha_queues true
-openstack-config --set /etc/cinder/cinder.conf oslo_messaging_rabbit heartbeat_timeout_threshold 60
+crudini --set /etc/cinder/cinder.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
+crudini --set /etc/cinder/cinder.conf oslo_messaging_rabbit rabbit_ha_queues true
+crudini --set /etc/cinder/cinder.conf oslo_messaging_rabbit heartbeat_timeout_threshold 60
 
 # rdo${PHD_VAR_osp_major}-cinder isn't the name of a real host or an IP
 # Its the name which we should advertise ourselves as and for A/P it should be the same everywhere
-openstack-config --set /etc/cinder/cinder.conf DEFAULT host rdo${PHD_VAR_osp_major}-cinder
-openstack-config --set /etc/cinder/cinder.conf DEFAULT osapi_volume_listen $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
-openstack-config --set /etc/cinder/cinder.conf DEFAULT nfs_shares_config /etc/cinder/nfs_exports
-openstack-config --set /etc/cinder/cinder.conf DEFAULT nfs_sparsed_volumes true
-openstack-config --set /etc/cinder/cinder.conf DEFAULT nfs_mount_options v3
+crudini --set /etc/cinder/cinder.conf DEFAULT host rdo${PHD_VAR_osp_major}-cinder
+crudini --set /etc/cinder/cinder.conf DEFAULT osapi_volume_listen $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
+crudini --set /etc/cinder/cinder.conf DEFAULT nfs_shares_config /etc/cinder/nfs_exports
+crudini --set /etc/cinder/cinder.conf DEFAULT nfs_sparsed_volumes true
+crudini --set /etc/cinder/cinder.conf DEFAULT nfs_mount_options v3
 
-openstack-config --set /etc/cinder/cinder.conf DEFAULT volume_driver cinder.volume.drivers.nfs.NfsDriver
+crudini --set /etc/cinder/cinder.conf DEFAULT volume_driver cinder.volume.drivers.nfs.NfsDriver
 
 # NOTE: this config section is to enable and configure the NFS cinder driver.
 

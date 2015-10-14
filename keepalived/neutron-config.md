@@ -20,67 +20,67 @@ Install software
 Configure Neutron server
 ------------------------
 
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT bind_host 192.168.1.22X
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT auth_strategy keystone
-    openstack-config --set /etc/neutron/neutron.conf keystone_authtoken identity_uri http://controller-vip.example.com:35357/
-    openstack-config --set /etc/neutron/neutron.conf keystone_authtoken admin_tenant_name services
-    openstack-config --set /etc/neutron/neutron.conf keystone_authtoken admin_user neutron
-    openstack-config --set /etc/neutron/neutron.conf keystone_authtoken admin_password neutrontest
-    openstack-config --set /etc/neutron/neutron.conf database connection mysql://neutron:neutrontest@controller-vip.example.com:3306/neutron
-    openstack-config --set /etc/neutron/neutron.conf database max_retries -1
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT notification_driver neutron.openstack.common.notifier.rpc_notifier
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT nova_url http://controller-vip.example.com:8774/v2
-    openstack-config --set /etc/neutron/neutron.conf nova nova_region_name regionOne
-    openstack-config --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_hosts hacontroller1,hacontroller2,hacontroller3
-    openstack-config --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_ha_queues true
+    crudini --set /etc/neutron/neutron.conf DEFAULT bind_host 192.168.1.22X
+    crudini --set /etc/neutron/neutron.conf DEFAULT auth_strategy keystone
+    crudini --set /etc/neutron/neutron.conf keystone_authtoken identity_uri http://controller-vip.example.com:35357/
+    crudini --set /etc/neutron/neutron.conf keystone_authtoken admin_tenant_name services
+    crudini --set /etc/neutron/neutron.conf keystone_authtoken admin_user neutron
+    crudini --set /etc/neutron/neutron.conf keystone_authtoken admin_password neutrontest
+    crudini --set /etc/neutron/neutron.conf database connection mysql://neutron:neutrontest@controller-vip.example.com:3306/neutron
+    crudini --set /etc/neutron/neutron.conf database max_retries -1
+    crudini --set /etc/neutron/neutron.conf DEFAULT notification_driver neutron.openstack.common.notifier.rpc_notifier
+    crudini --set /etc/neutron/neutron.conf DEFAULT nova_url http://controller-vip.example.com:8774/v2
+    crudini --set /etc/neutron/neutron.conf nova nova_region_name regionOne
+    crudini --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_hosts hacontroller1,hacontroller2,hacontroller3
+    crudini --set /etc/neutron/neutron.conf oslo_messaging_rabbit rabbit_ha_queues true
 
     . /root/keystonerc_admin
     services_tenant_id=$(openstack project show services -f value -c id | head -n 1)
 
     # The tenant_id below is the services tenant ID
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT nova_admin_tenant_id ${services_tenant_id}
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT nova_admin_username compute
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT nova_admin_password novatest
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT nova_admin_auth_url http://controller-vip.example.com:35357/v2.0
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT notify_nova_on_port_status_changes True
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT notify_nova_on_port_data_changes True
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT core_plugin neutron.plugins.ml2.plugin.Ml2Plugin
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT service_plugins router
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT router_scheduler_driver neutron.scheduler.l3_agent_scheduler.ChanceScheduler
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT dhcp_agents_per_network 2
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT api_workers 2
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT rpc_workers 2
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT l3_ha True
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT min_l3_agents_per_router 2
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT max_l3_agents_per_router 2
+    crudini --set /etc/neutron/neutron.conf DEFAULT nova_admin_tenant_id ${services_tenant_id}
+    crudini --set /etc/neutron/neutron.conf DEFAULT nova_admin_username compute
+    crudini --set /etc/neutron/neutron.conf DEFAULT nova_admin_password novatest
+    crudini --set /etc/neutron/neutron.conf DEFAULT nova_admin_auth_url http://controller-vip.example.com:35357/v2.0
+    crudini --set /etc/neutron/neutron.conf DEFAULT notify_nova_on_port_status_changes True
+    crudini --set /etc/neutron/neutron.conf DEFAULT notify_nova_on_port_data_changes True
+    crudini --set /etc/neutron/neutron.conf DEFAULT core_plugin neutron.plugins.ml2.plugin.Ml2Plugin
+    crudini --set /etc/neutron/neutron.conf DEFAULT service_plugins router
+    crudini --set /etc/neutron/neutron.conf DEFAULT router_scheduler_driver neutron.scheduler.l3_agent_scheduler.ChanceScheduler
+    crudini --set /etc/neutron/neutron.conf DEFAULT dhcp_agents_per_network 2
+    crudini --set /etc/neutron/neutron.conf DEFAULT api_workers 2
+    crudini --set /etc/neutron/neutron.conf DEFAULT rpc_workers 2
+    crudini --set /etc/neutron/neutron.conf DEFAULT l3_ha True
+    crudini --set /etc/neutron/neutron.conf DEFAULT min_l3_agents_per_router 2
+    crudini --set /etc/neutron/neutron.conf DEFAULT max_l3_agents_per_router 2
 
 ### ML2 configuration
 
     ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
-    openstack-config --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 type_drivers local,gre,flat,vxlan,vlan
-    openstack-config --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 tenant_network_types vxlan
-    openstack-config --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 mechanism_drivers openvswitch
-    openstack-config --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2_type_flat flat_networks \*
-    openstack-config --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2_type_gre tunnel_id_ranges 10:10000
-    openstack-config --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2_type_vxlan vni_ranges 10:10000
-    openstack-config --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2_type_vxlan vxlan_group 224.0.0.1
-    openstack-config --set /etc/neutron/plugins/ml2/ml2_conf.ini securitygroup enable_security_group True
-    openstack-config --set /etc/neutron/plugins/ml2/ml2_conf.ini securitygroup firewall_driver neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver 
+    crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 type_drivers local,gre,flat,vxlan,vlan
+    crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 tenant_network_types vxlan
+    crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 mechanism_drivers openvswitch
+    crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2_type_flat flat_networks \*
+    crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2_type_gre tunnel_id_ranges 10:10000
+    crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2_type_vxlan vni_ranges 10:10000
+    crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2_type_vxlan vxlan_group 224.0.0.1
+    crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini securitygroup enable_security_group True
+    crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini securitygroup firewall_driver neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver 
 
 ### LBaaS configuration (optional)
 
     yum -y install openstack-neutron-lbaas
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT service_plugins router,lbaas
-    openstack-config --set /etc/neutron/lbaas_agent.ini DEFAULT interface_driver neutron.agent.linux.interface.OVSInterfaceDriver
-    openstack-config --set /etc/neutron/lbaas_agent.ini DEFAULT device_driver neutron_lbaas.services.loadbalancer.drivers.haproxy.namespace_driver.HaproxyNSDriver
-    openstack-config --set /etc/neutron/lbaas_agent.ini haproxy user_group haproxy 
+    crudini --set /etc/neutron/neutron.conf DEFAULT service_plugins router,lbaas
+    crudini --set /etc/neutron/lbaas_agent.ini DEFAULT interface_driver neutron.agent.linux.interface.OVSInterfaceDriver
+    crudini --set /etc/neutron/lbaas_agent.ini DEFAULT device_driver neutron_lbaas.services.loadbalancer.drivers.haproxy.namespace_driver.HaproxyNSDriver
+    crudini --set /etc/neutron/lbaas_agent.ini haproxy user_group haproxy 
 
 ### FWaaS configuration (optional)
 
     yum -y install openstack-neutron-fwaas
-    openstack-config --set /etc/neutron/neutron.conf DEFAULT service_plugins router,firewall,lbaas
-    openstack-config --set /etc/neutron/fwaas_driver.ini fwaas enabled True
-    openstack-config --set /etc/neutron/fwaas_driver.ini fwaas driver neutron_fwaas.services.firewall.drivers.linux.iptables_fwaas.IptablesFwaasDriver
+    crudini --set /etc/neutron/neutron.conf DEFAULT service_plugins router,firewall,lbaas
+    crudini --set /etc/neutron/fwaas_driver.ini fwaas enabled True
+    crudini --set /etc/neutron/fwaas_driver.ini fwaas driver neutron_fwaas.services.firewall.drivers.linux.iptables_fwaas.IptablesFwaasDriver
 
 Manage DB
 ---------
@@ -114,39 +114,39 @@ OpenvSwitch configuration
 OpenvSwitch agent
 -----------------
 
-    openstack-config --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini agent tunnel_types vxlan
-    openstack-config --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini agent vxlan_udp_port 4789
-    openstack-config --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini ovs local_ip 192.168.1.22X
-    openstack-config --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini ovs enable_tunneling True
-    openstack-config --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini ovs integration_bridge br-int
-    openstack-config --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini ovs tunnel_bridge br-tun
-    openstack-config --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini ovs bridge_mappings physnet1:br-eth0
-    openstack-config --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini ovs network_vlan_ranges physnet1
-    openstack-config --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini securitygroup firewall_driver neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver 
-    openstack-config --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini agent l2_population False
+    crudini --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini agent tunnel_types vxlan
+    crudini --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini agent vxlan_udp_port 4789
+    crudini --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini ovs local_ip 192.168.1.22X
+    crudini --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini ovs enable_tunneling True
+    crudini --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini ovs integration_bridge br-int
+    crudini --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini ovs tunnel_bridge br-tun
+    crudini --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini ovs bridge_mappings physnet1:br-eth0
+    crudini --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini ovs network_vlan_ranges physnet1
+    crudini --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini securitygroup firewall_driver neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver 
+    crudini --set /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini agent l2_population False
 
 Metadata agent
 --------------
 
-    openstack-config --set /etc/neutron/metadata_agent.ini DEFAULT auth_strategy keystone
-    openstack-config --set /etc/neutron/metadata_agent.ini DEFAULT auth_url http://controller-vip.example.com:35357/v2.0
-    openstack-config --set /etc/neutron/metadata_agent.ini DEFAULT auth_host controller-vip.example.com
-    openstack-config --set /etc/neutron/metadata_agent.ini DEFAULT auth_region regionOne
-    openstack-config --set /etc/neutron/metadata_agent.ini DEFAULT admin_tenant_name services
-    openstack-config --set /etc/neutron/metadata_agent.ini DEFAULT admin_user neutron
-    openstack-config --set /etc/neutron/metadata_agent.ini DEFAULT admin_password neutrontest
-    openstack-config --set /etc/neutron/metadata_agent.ini DEFAULT nova_metadata_ip controller-vip.example.com
-    openstack-config --set /etc/neutron/metadata_agent.ini DEFAULT nova_metadata_port 8775
-    openstack-config --set /etc/neutron/metadata_agent.ini DEFAULT metadata_proxy_shared_secret metatest
-    openstack-config --set /etc/neutron/metadata_agent.ini DEFAULT metadata_workers 4
-    openstack-config --set /etc/neutron/metadata_agent.ini DEFAULT metadata_backlog 2048
+    crudini --set /etc/neutron/metadata_agent.ini DEFAULT auth_strategy keystone
+    crudini --set /etc/neutron/metadata_agent.ini DEFAULT auth_url http://controller-vip.example.com:35357/v2.0
+    crudini --set /etc/neutron/metadata_agent.ini DEFAULT auth_host controller-vip.example.com
+    crudini --set /etc/neutron/metadata_agent.ini DEFAULT auth_region regionOne
+    crudini --set /etc/neutron/metadata_agent.ini DEFAULT admin_tenant_name services
+    crudini --set /etc/neutron/metadata_agent.ini DEFAULT admin_user neutron
+    crudini --set /etc/neutron/metadata_agent.ini DEFAULT admin_password neutrontest
+    crudini --set /etc/neutron/metadata_agent.ini DEFAULT nova_metadata_ip controller-vip.example.com
+    crudini --set /etc/neutron/metadata_agent.ini DEFAULT nova_metadata_port 8775
+    crudini --set /etc/neutron/metadata_agent.ini DEFAULT metadata_proxy_shared_secret metatest
+    crudini --set /etc/neutron/metadata_agent.ini DEFAULT metadata_workers 4
+    crudini --set /etc/neutron/metadata_agent.ini DEFAULT metadata_backlog 2048
 
 DHCP agent
 ----------
 
-    openstack-config --set /etc/neutron/dhcp_agent.ini DEFAULT interface_driver neutron.agent.linux.interface.OVSInterfaceDriver
-    openstack-config --set /etc/neutron/dhcp_agent.ini DEFAULT dhcp_delete_namespaces False
-    openstack-config --set /etc/neutron/dhcp_agent.ini DEFAULT dnsmasq_config_file /etc/neutron/dnsmasq-neutron.conf
+    crudini --set /etc/neutron/dhcp_agent.ini DEFAULT interface_driver neutron.agent.linux.interface.OVSInterfaceDriver
+    crudini --set /etc/neutron/dhcp_agent.ini DEFAULT dhcp_delete_namespaces False
+    crudini --set /etc/neutron/dhcp_agent.ini DEFAULT dnsmasq_config_file /etc/neutron/dnsmasq-neutron.conf
 
 The following will prevent issues from happening when the network card MTU is 1500. If we are using jumbo frames, it should not be required. Be aware that this only helps on certain operating systems with a well-behaving DHCP client. Windows is known to ignore it.
 
@@ -157,12 +157,12 @@ The following will prevent issues from happening when the network card MTU is 15
 L3 agent
 --------
 
-    openstack-config --set /etc/neutron/l3_agent.ini DEFAULT interface_driver neutron.agent.linux.interface.OVSInterfaceDriver
-    openstack-config --set /etc/neutron/l3_agent.ini DEFAULT handle_internal_only_routers True
-    openstack-config --set /etc/neutron/l3_agent.ini DEFAULT send_arp_for_ha 3
-    openstack-config --set /etc/neutron/l3_agent.ini DEFAULT router_delete_namespaces False
-    openstack-config --set /etc/neutron/l3_agent.ini DEFAULT metadata_ip controller-vip.example.com
-    openstack-config --set /etc/neutron/l3_agent.ini DEFAULT external_network_bridge
+    crudini --set /etc/neutron/l3_agent.ini DEFAULT interface_driver neutron.agent.linux.interface.OVSInterfaceDriver
+    crudini --set /etc/neutron/l3_agent.ini DEFAULT handle_internal_only_routers True
+    crudini --set /etc/neutron/l3_agent.ini DEFAULT send_arp_for_ha 3
+    crudini --set /etc/neutron/l3_agent.ini DEFAULT router_delete_namespaces False
+    crudini --set /etc/neutron/l3_agent.ini DEFAULT metadata_ip controller-vip.example.com
+    crudini --set /etc/neutron/l3_agent.ini DEFAULT external_network_bridge
 
 Start services and open VXLAN firewall port
 -------------------------------------------

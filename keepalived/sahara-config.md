@@ -15,25 +15,25 @@ Install software
 Configure Sahara
 ----------------
 
-    openstack-config --set /etc/sahara/sahara.conf DEFAULT host 192.168.1.22X
-    openstack-config --set /etc/sahara/sahara.conf DEFAULT use_floating_ips True
-    openstack-config --set /etc/sahara/sahara.conf DEFAULT use_neutron True
-    openstack-config --set /etc/sahara/sahara.conf DEFAULT rpc_backend rabbit
-    openstack-config --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_hosts hacontroller1,hacontroller2,hacontroller3
-    openstack-config --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_port 5672
-    openstack-config --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_use_ssl False
-    openstack-config --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_userid guest
-    openstack-config --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_password guest
-    openstack-config --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_login_method AMQPLAIN
-    openstack-config --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_ha_queues true
-    openstack-config --set /etc/sahara/sahara.conf DEFAULT notification_topics notifications
-    openstack-config --set /etc/sahara/sahara.conf database connection mysql://sahara:saharatest@controller-vip.example.com/sahara
-    openstack-config --set /etc/sahara/sahara.conf keystone_authtoken auth_uri http://controller-vip.example.com:5000/v2.0
-    openstack-config --set /etc/sahara/sahara.conf keystone_authtoken identity_uri http://controller-vip.example.com:35357/
-    openstack-config --set /etc/sahara/sahara.conf keystone_authtoken admin_user sahara
-    openstack-config --set /etc/sahara/sahara.conf keystone_authtoken admin_password saharatest
-    openstack-config --set /etc/sahara/sahara.conf keystone_authtoken admin_tenant_name services
-    openstack-config --set /etc/sahara/sahara.conf DEFAULT log_file /var/log/sahara/sahara.log
+    crudini --set /etc/sahara/sahara.conf DEFAULT host 192.168.1.22X
+    crudini --set /etc/sahara/sahara.conf DEFAULT use_floating_ips True
+    crudini --set /etc/sahara/sahara.conf DEFAULT use_neutron True
+    crudini --set /etc/sahara/sahara.conf DEFAULT rpc_backend rabbit
+    crudini --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_hosts hacontroller1,hacontroller2,hacontroller3
+    crudini --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_port 5672
+    crudini --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_use_ssl False
+    crudini --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_userid guest
+    crudini --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_password guest
+    crudini --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_login_method AMQPLAIN
+    crudini --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_ha_queues true
+    crudini --set /etc/sahara/sahara.conf DEFAULT notification_topics notifications
+    crudini --set /etc/sahara/sahara.conf database connection mysql://sahara:saharatest@controller-vip.example.com/sahara
+    crudini --set /etc/sahara/sahara.conf keystone_authtoken auth_uri http://controller-vip.example.com:5000/v2.0
+    crudini --set /etc/sahara/sahara.conf keystone_authtoken identity_uri http://controller-vip.example.com:35357/
+    crudini --set /etc/sahara/sahara.conf keystone_authtoken admin_user sahara
+    crudini --set /etc/sahara/sahara.conf keystone_authtoken admin_password saharatest
+    crudini --set /etc/sahara/sahara.conf keystone_authtoken admin_tenant_name services
+    crudini --set /etc/sahara/sahara.conf DEFAULT log_file /var/log/sahara/sahara.log
 
 Manage DB
 ---------

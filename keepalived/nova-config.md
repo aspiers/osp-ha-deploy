@@ -15,46 +15,46 @@ Install software
 Configure Nova API
 ------------------
 
-    openstack-config --set /etc/nova/nova.conf DEFAULT memcached_servers hacontroller1:11211,hacontroller2:11211,hacontroller3:11211
-    openstack-config --set /etc/nova/nova.conf DEFAULT vncserver_proxyclient_address 192.168.1.22X
-    openstack-config --set /etc/nova/nova.conf DEFAULT vncserver_listen 192.168.1.22X
-    openstack-config --set /etc/nova/nova.conf DEFAULT novncproxy_host 192.168.1.22X
-    openstack-config --set /etc/nova/nova.conf DEFAULT novncproxy_base_url http://controller-vip.example.com:6080/vnc_auto.html
-    openstack-config --set /etc/nova/nova.conf database connection mysql://nova:novatest@controller-vip.example.com/nova
-    openstack-config --set /etc/nova/nova.conf database max_retries -1
-    openstack-config --set /etc/nova/nova.conf DEFAULT auth_strategy keystone
-    openstack-config --set /etc/nova/nova.conf DEFAULT osapi_compute_listen 192.168.1.22X
-    openstack-config --set /etc/nova/nova.conf DEFAULT metadata_host 192.168.1.22X
-    openstack-config --set /etc/nova/nova.conf DEFAULT metadata_listen 192.168.1.22X
-    openstack-config --set /etc/nova/nova.conf DEFAULT metadata_listen_port 8775
-    openstack-config --set /etc/nova/nova.conf DEFAULT glance_host controller-vip.example.com
-    openstack-config --set /etc/nova/nova.conf DEFAULT network_api_class nova.network.neutronv2.api.API
-    openstack-config --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
-    openstack-config --set /etc/nova/nova.conf libvirt vif_driver nova.virt.libvirt.vif.LibvirtGenericVIFDriver
-    openstack-config --set /etc/nova/nova.conf DEFAULT security_group_api neutron
-    openstack-config --set /etc/nova/nova.conf cinder cinder_catalog_info volume:cinder:internalURL
-    openstack-config --set /etc/nova/nova.conf conductor use_local false
-    openstack-config --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_hosts hacontroller1,hacontroller2,hacontroller3
-    openstack-config --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_ha_queues True
-    openstack-config --set /etc/nova/nova.conf neutron service_metadata_proxy True
-    openstack-config --set /etc/nova/nova.conf neutron metadata_proxy_shared_secret metatest
-    openstack-config --set /etc/nova/nova.conf neutron url http://controller-vip.example.com:9696/
-    openstack-config --set /etc/nova/nova.conf neutron admin_tenant_name services
-    openstack-config --set /etc/nova/nova.conf neutron admin_username neutron
-    openstack-config --set /etc/nova/nova.conf neutron admin_password neutrontest
-    openstack-config --set /etc/nova/nova.conf neutron admin_auth_url http://controller-vip.example.com:35357/v2.0
-    openstack-config --set /etc/nova/nova.conf neutron region_name regionOne
+    crudini --set /etc/nova/nova.conf DEFAULT memcached_servers hacontroller1:11211,hacontroller2:11211,hacontroller3:11211
+    crudini --set /etc/nova/nova.conf DEFAULT vncserver_proxyclient_address 192.168.1.22X
+    crudini --set /etc/nova/nova.conf DEFAULT vncserver_listen 192.168.1.22X
+    crudini --set /etc/nova/nova.conf DEFAULT novncproxy_host 192.168.1.22X
+    crudini --set /etc/nova/nova.conf DEFAULT novncproxy_base_url http://controller-vip.example.com:6080/vnc_auto.html
+    crudini --set /etc/nova/nova.conf database connection mysql://nova:novatest@controller-vip.example.com/nova
+    crudini --set /etc/nova/nova.conf database max_retries -1
+    crudini --set /etc/nova/nova.conf DEFAULT auth_strategy keystone
+    crudini --set /etc/nova/nova.conf DEFAULT osapi_compute_listen 192.168.1.22X
+    crudini --set /etc/nova/nova.conf DEFAULT metadata_host 192.168.1.22X
+    crudini --set /etc/nova/nova.conf DEFAULT metadata_listen 192.168.1.22X
+    crudini --set /etc/nova/nova.conf DEFAULT metadata_listen_port 8775
+    crudini --set /etc/nova/nova.conf DEFAULT glance_host controller-vip.example.com
+    crudini --set /etc/nova/nova.conf DEFAULT network_api_class nova.network.neutronv2.api.API
+    crudini --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
+    crudini --set /etc/nova/nova.conf libvirt vif_driver nova.virt.libvirt.vif.LibvirtGenericVIFDriver
+    crudini --set /etc/nova/nova.conf DEFAULT security_group_api neutron
+    crudini --set /etc/nova/nova.conf cinder cinder_catalog_info volume:cinder:internalURL
+    crudini --set /etc/nova/nova.conf conductor use_local false
+    crudini --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_hosts hacontroller1,hacontroller2,hacontroller3
+    crudini --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_ha_queues True
+    crudini --set /etc/nova/nova.conf neutron service_metadata_proxy True
+    crudini --set /etc/nova/nova.conf neutron metadata_proxy_shared_secret metatest
+    crudini --set /etc/nova/nova.conf neutron url http://controller-vip.example.com:9696/
+    crudini --set /etc/nova/nova.conf neutron admin_tenant_name services
+    crudini --set /etc/nova/nova.conf neutron admin_username neutron
+    crudini --set /etc/nova/nova.conf neutron admin_password neutrontest
+    crudini --set /etc/nova/nova.conf neutron admin_auth_url http://controller-vip.example.com:35357/v2.0
+    crudini --set /etc/nova/nova.conf neutron region_name regionOne
 
     # REQUIRED FOR A/A scheduler
-    openstack-config --set /etc/nova/nova.conf DEFAULT scheduler_host_subset_size 30
-    openstack-config --set /etc/nova/api-paste.ini filter:authtoken identity_uri http://controller-vip.example.com:35357/
-    openstack-config --set /etc/nova/api-paste.ini filter:authtoken admin_tenant_name services
-    openstack-config --set /etc/nova/api-paste.ini filter:authtoken admin_user compute
-    openstack-config --set /etc/nova/api-paste.ini filter:authtoken admin_password novatest
+    crudini --set /etc/nova/nova.conf DEFAULT scheduler_host_subset_size 30
+    crudini --set /etc/nova/api-paste.ini filter:authtoken identity_uri http://controller-vip.example.com:35357/
+    crudini --set /etc/nova/api-paste.ini filter:authtoken admin_tenant_name services
+    crudini --set /etc/nova/api-paste.ini filter:authtoken admin_user compute
+    crudini --set /etc/nova/api-paste.ini filter:authtoken admin_password novatest
 
 Only run the following command if you are creating a test environment where your hypervisors will be virtual machines
 
-    openstack-config --set /etc/nova/nova.conf libvirt virt_type qemu
+    crudini --set /etc/nova/nova.conf libvirt virt_type qemu
 
 Manage DB
 ---------

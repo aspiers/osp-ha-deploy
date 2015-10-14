@@ -43,59 +43,59 @@ target=all
 ....
 yum install -y openstack-nova-console openstack-nova-novncproxy openstack-utils openstack-nova-api openstack-nova-conductor openstack-nova-scheduler python-cinderclient python-memcached
 
-openstack-config --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
-openstack-config --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_ha_queues true
-openstack-config --set /etc/nova/nova.conf oslo_messaging_rabbit heartbeat_timeout_threshold 60
-openstack-config --set /etc/nova/nova.conf DEFAULT memcached_servers ${PHD_VAR_network_hosts_memcache}
+crudini --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
+crudini --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_ha_queues true
+crudini --set /etc/nova/nova.conf oslo_messaging_rabbit heartbeat_timeout_threshold 60
+crudini --set /etc/nova/nova.conf DEFAULT memcached_servers ${PHD_VAR_network_hosts_memcache}
 
 
 
 # Particularly in the collapsed case, we get a lot of conflicts with the haproxy server
-openstack-config --set /etc/nova/nova.conf DEFAULT vncserver_proxyclient_address $(host $(hostname -s) | awk '{print $4}')
-openstack-config --set /etc/nova/nova.conf DEFAULT vncserver_listen $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
-openstack-config --set /etc/nova/nova.conf DEFAULT vncserver_proxyclient_address $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
-openstack-config --set /etc/nova/nova.conf DEFAULT novncproxy_host $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
-openstack-config --set /etc/nova/nova.conf DEFAULT metadata_listen $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
-openstack-config --set /etc/nova/nova.conf DEFAULT osapi_compute_listen $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
+crudini --set /etc/nova/nova.conf DEFAULT vncserver_proxyclient_address $(host $(hostname -s) | awk '{print $4}')
+crudini --set /etc/nova/nova.conf DEFAULT vncserver_listen $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
+crudini --set /etc/nova/nova.conf DEFAULT vncserver_proxyclient_address $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
+crudini --set /etc/nova/nova.conf DEFAULT novncproxy_host $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
+crudini --set /etc/nova/nova.conf DEFAULT metadata_listen $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
+crudini --set /etc/nova/nova.conf DEFAULT osapi_compute_listen $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
 
-openstack-config --set /etc/nova/nova.conf DEFAULT novncproxy_base_url http://${PHD_VAR_network_hosts_gateway}.${PHD_VAR_network_domain}:6080/vnc_auto.html
+crudini --set /etc/nova/nova.conf DEFAULT novncproxy_base_url http://${PHD_VAR_network_hosts_gateway}.${PHD_VAR_network_domain}:6080/vnc_auto.html
 
-openstack-config --set /etc/nova/nova.conf DEFAULT auth_strategy keystone
+crudini --set /etc/nova/nova.conf DEFAULT auth_strategy keystone
 # FIX ME: nova doesn't like hostnames anymore?
-# openstack-config --set /etc/nova/nova.conf DEFAULT metadata_host vip-nova
-openstack-config --set /etc/nova/nova.conf DEFAULT metadata_host ${PHD_VAR_network_internal}.210
-openstack-config --set /etc/nova/nova.conf DEFAULT metadata_listen_port 8775
+# crudini --set /etc/nova/nova.conf DEFAULT metadata_host vip-nova
+crudini --set /etc/nova/nova.conf DEFAULT metadata_host ${PHD_VAR_network_internal}.210
+crudini --set /etc/nova/nova.conf DEFAULT metadata_listen_port 8775
 
-openstack-config --set /etc/nova/nova.conf neutron service_metadata_proxy True
-openstack-config --set /etc/nova/nova.conf neutron metadata_proxy_shared_secret metatest
-openstack-config --set /etc/nova/nova.conf glance host vip-glance
-openstack-config --set /etc/nova/nova.conf DEFAULT network_api_class nova.network.neutronv2.api.API
-openstack-config --set /etc/nova/nova.conf neutron url http://vip-neutron:9696/
-openstack-config --set /etc/nova/nova.conf neutron admin_tenant_name services
-openstack-config --set /etc/nova/nova.conf neutron admin_username neutron
-openstack-config --set /etc/nova/nova.conf neutron admin_password neutrontest
-openstack-config --set /etc/nova/nova.conf neutron admin_auth_url http://vip-keystone:35357/v2.0
-openstack-config --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
-openstack-config --set /etc/nova/nova.conf DEFAULT libvirt_vif_driver nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver
+crudini --set /etc/nova/nova.conf neutron service_metadata_proxy True
+crudini --set /etc/nova/nova.conf neutron metadata_proxy_shared_secret metatest
+crudini --set /etc/nova/nova.conf glance host vip-glance
+crudini --set /etc/nova/nova.conf DEFAULT network_api_class nova.network.neutronv2.api.API
+crudini --set /etc/nova/nova.conf neutron url http://vip-neutron:9696/
+crudini --set /etc/nova/nova.conf neutron admin_tenant_name services
+crudini --set /etc/nova/nova.conf neutron admin_username neutron
+crudini --set /etc/nova/nova.conf neutron admin_password neutrontest
+crudini --set /etc/nova/nova.conf neutron admin_auth_url http://vip-keystone:35357/v2.0
+crudini --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
+crudini --set /etc/nova/nova.conf DEFAULT libvirt_vif_driver nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver
 
 
 # those entries were workaround for https://bugs.launchpad.net/neutron/+bug/1464178
 # that breaks neutron and evacuation
-# openstack-config --set /etc/nova/nova.conf DEFAULT notify_api_faults False
-# openstack-config --set /etc/nova/nova.conf DEFAULT vif_plugging_is_fatal True
-# openstack-config --set /etc/nova/nova.conf DEFAULT vif_plugging_timeout 300
+# crudini --set /etc/nova/nova.conf DEFAULT notify_api_faults False
+# crudini --set /etc/nova/nova.conf DEFAULT vif_plugging_is_fatal True
+# crudini --set /etc/nova/nova.conf DEFAULT vif_plugging_timeout 300
 
-openstack-config --set /etc/nova/nova.conf conductor use_local false
+crudini --set /etc/nova/nova.conf conductor use_local false
 
-openstack-config --set /etc/nova/nova.conf database connection mysql://nova:novatest@vip-db/nova
-openstack-config --set /etc/nova/nova.conf database max_retries -1
+crudini --set /etc/nova/nova.conf database connection mysql://nova:novatest@vip-db/nova
+crudini --set /etc/nova/nova.conf database max_retries -1
 
 # REQUIRED FOR A/A scheduler
-openstack-config --set /etc/nova/nova.conf DEFAULT scheduler_host_subset_size 30
-openstack-config --set /etc/nova/api-paste.ini filter:authtoken auth_host vip-keystone
-openstack-config --set /etc/nova/api-paste.ini filter:authtoken admin_tenant_name services
-openstack-config --set /etc/nova/api-paste.ini filter:authtoken admin_user compute
-openstack-config --set /etc/nova/api-paste.ini filter:authtoken admin_password novatest
+crudini --set /etc/nova/nova.conf DEFAULT scheduler_host_subset_size 30
+crudini --set /etc/nova/api-paste.ini filter:authtoken auth_host vip-keystone
+crudini --set /etc/nova/api-paste.ini filter:authtoken admin_tenant_name services
+crudini --set /etc/nova/api-paste.ini filter:authtoken admin_user compute
+crudini --set /etc/nova/api-paste.ini filter:authtoken admin_password novatest
 ....
 
 target=$PHD_ENV_nodes1

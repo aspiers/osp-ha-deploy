@@ -46,47 +46,47 @@ yum install -y openstack-glance openstack-utils python-openstackclient
 
 # Configure the API service
 
-openstack-config --set /etc/glance/glance-api.conf database connection mysql://glance:glancetest@vip-db/glance
-openstack-config --set /etc/glance/glance-api.conf database max_retries -1
+crudini --set /etc/glance/glance-api.conf database connection mysql://glance:glancetest@vip-db/glance
+crudini --set /etc/glance/glance-api.conf database max_retries -1
 
-openstack-config --set /etc/glance/glance-api.conf paste_deploy flavor keystone
+crudini --set /etc/glance/glance-api.conf paste_deploy flavor keystone
 
-openstack-config --set /etc/glance/glance-api.conf keystone_authtoken identity_uri http://vip-keystone:35357/
-openstack-config --set /etc/glance/glance-api.conf keystone_authtoken auth_uri http://vip-keystone:5000/
-openstack-config --set /etc/glance/glance-api.conf keystone_authtoken admin_tenant_name services
-openstack-config --set /etc/glance/glance-api.conf keystone_authtoken admin_user glance
-openstack-config --set /etc/glance/glance-api.conf keystone_authtoken admin_password glancetest
+crudini --set /etc/glance/glance-api.conf keystone_authtoken identity_uri http://vip-keystone:35357/
+crudini --set /etc/glance/glance-api.conf keystone_authtoken auth_uri http://vip-keystone:5000/
+crudini --set /etc/glance/glance-api.conf keystone_authtoken admin_tenant_name services
+crudini --set /etc/glance/glance-api.conf keystone_authtoken admin_user glance
+crudini --set /etc/glance/glance-api.conf keystone_authtoken admin_password glancetest
 
-openstack-config --set /etc/glance/glance-api.conf DEFAULT notification_driver messaging
+crudini --set /etc/glance/glance-api.conf DEFAULT notification_driver messaging
 
-openstack-config --set /etc/glance/glance-api.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
-openstack-config --set /etc/glance/glance-api.conf oslo_messaging_rabbit rabbit_ha_queues true
-openstack-config --set /etc/glance/glance-api.conf oslo_messaging_rabbit heartbeat_timeout_threshold 60
+crudini --set /etc/glance/glance-api.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
+crudini --set /etc/glance/glance-api.conf oslo_messaging_rabbit rabbit_ha_queues true
+crudini --set /etc/glance/glance-api.conf oslo_messaging_rabbit heartbeat_timeout_threshold 60
 
-openstack-config --set /etc/glance/glance-api.conf DEFAULT registry_host vip-glance
-openstack-config --set /etc/glance/glance-api.conf DEFAULT bind_host $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
+crudini --set /etc/glance/glance-api.conf DEFAULT registry_host vip-glance
+crudini --set /etc/glance/glance-api.conf DEFAULT bind_host $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
 
 # Configure the registry service
 
-openstack-config --set /etc/glance/glance-registry.conf database connection mysql://glance:glancetest@vip-db/glance
-openstack-config --set /etc/glance/glance-registry.conf database max_retries -1
+crudini --set /etc/glance/glance-registry.conf database connection mysql://glance:glancetest@vip-db/glance
+crudini --set /etc/glance/glance-registry.conf database max_retries -1
 
-openstack-config --set /etc/glance/glance-registry.conf paste_deploy flavor keystone
+crudini --set /etc/glance/glance-registry.conf paste_deploy flavor keystone
 
-openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken identity_uri http://vip-keystone:35357/
-openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken auth_uri http://vip-keystone:5000/
-openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken admin_tenant_name services
-openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken admin_user glance
-openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken admin_password glancetest
+crudini --set /etc/glance/glance-registry.conf keystone_authtoken identity_uri http://vip-keystone:35357/
+crudini --set /etc/glance/glance-registry.conf keystone_authtoken auth_uri http://vip-keystone:5000/
+crudini --set /etc/glance/glance-registry.conf keystone_authtoken admin_tenant_name services
+crudini --set /etc/glance/glance-registry.conf keystone_authtoken admin_user glance
+crudini --set /etc/glance/glance-registry.conf keystone_authtoken admin_password glancetest
 
-openstack-config --set /etc/glance/glance-registry.conf DEFAULT notification_driver messaging
+crudini --set /etc/glance/glance-registry.conf DEFAULT notification_driver messaging
 
-openstack-config --set /etc/glance/glance-registry.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
-openstack-config --set /etc/glance/glance-registry.conf oslo_messaging_rabbit rabbit_ha_queues true
-openstack-config --set /etc/glance/glance-registry.conf oslo_messaging_rabbit heartbeat_timeout_threshold 60
+crudini --set /etc/glance/glance-registry.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
+crudini --set /etc/glance/glance-registry.conf oslo_messaging_rabbit rabbit_ha_queues true
+crudini --set /etc/glance/glance-registry.conf oslo_messaging_rabbit heartbeat_timeout_threshold 60
 
-openstack-config --set /etc/glance/glance-registry.conf DEFAULT registry_host vip-glance
-openstack-config --set /etc/glance/glance-registry.conf DEFAULT bind_host $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
+crudini --set /etc/glance/glance-registry.conf DEFAULT registry_host vip-glance
+crudini --set /etc/glance/glance-registry.conf DEFAULT bind_host $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
 
 # create the NFS share mountpoint on the nfs server
 mkdir -p $PHD_VAR_osp_configdir/glance

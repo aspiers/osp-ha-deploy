@@ -55,45 +55,45 @@ myip=$(ip a |grep ${PHD_VAR_network_nic_internal} | grep inet | awk '{print $2}'
 
 yum install -y openstack-nova-console openstack-nova-novncproxy openstack-utils openstack-nova-api openstack-nova-conductor openstack-nova-scheduler python-cinderclient python-memcached
 
-openstack-config --set /etc/nova/nova.conf DEFAULT memcached_servers ${PHD_VAR_network_hosts_memcache}
-openstack-config --set /etc/nova/nova.conf DEFAULT vncserver_proxyclient_address ${myip}
-openstack-config --set /etc/nova/nova.conf DEFAULT vncserver_listen ${myip}
-openstack-config --set /etc/nova/nova.conf DEFAULT novncproxy_host ${myip}
-openstack-config --set /etc/nova/nova.conf DEFAULT novncproxy_base_url http://${PHD_VAR_network_hosts_vip}:6080/vnc_auto.html
-openstack-config --set /etc/nova/nova.conf database connection mysql://nova:novatest@${PHD_VAR_network_hosts_vip}/nova
-openstack-config --set /etc/nova/nova.conf database max_retries -1
-openstack-config --set /etc/nova/nova.conf DEFAULT auth_strategy keystone
-openstack-config --set /etc/nova/nova.conf DEFAULT osapi_compute_listen ${myip}
-openstack-config --set /etc/nova/nova.conf DEFAULT metadata_host ${myip}
-openstack-config --set /etc/nova/nova.conf DEFAULT metadata_listen ${myip}
-openstack-config --set /etc/nova/nova.conf DEFAULT metadata_listen_port 8775
-openstack-config --set /etc/nova/nova.conf DEFAULT glance_host ${PHD_VAR_network_hosts_vip}
-openstack-config --set /etc/nova/nova.conf DEFAULT network_api_class nova.network.neutronv2.api.API
-openstack-config --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
-openstack-config --set /etc/nova/nova.conf libvirt vif_driver nova.virt.libvirt.vif.LibvirtGenericVIFDriver
-openstack-config --set /etc/nova/nova.conf DEFAULT security_group_api neutron
-openstack-config --set /etc/nova/nova.conf cinder cinder_catalog_info volume:cinder:internalURL
-openstack-config --set /etc/nova/nova.conf conductor use_local false
-openstack-config --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
-openstack-config --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_ha_queues True
-openstack-config --set /etc/nova/nova.conf neutron service_metadata_proxy True
-openstack-config --set /etc/nova/nova.conf neutron metadata_proxy_shared_secret metatest
-openstack-config --set /etc/nova/nova.conf neutron url http://${PHD_VAR_network_hosts_vip}:9696/
-openstack-config --set /etc/nova/nova.conf neutron admin_tenant_name services
-openstack-config --set /etc/nova/nova.conf neutron admin_username neutron
-openstack-config --set /etc/nova/nova.conf neutron admin_password neutrontest
-openstack-config --set /etc/nova/nova.conf neutron admin_auth_url http://${PHD_VAR_network_hosts_vip}:35357/v2.0
-openstack-config --set /etc/nova/nova.conf neutron region_name regionOne
+crudini --set /etc/nova/nova.conf DEFAULT memcached_servers ${PHD_VAR_network_hosts_memcache}
+crudini --set /etc/nova/nova.conf DEFAULT vncserver_proxyclient_address ${myip}
+crudini --set /etc/nova/nova.conf DEFAULT vncserver_listen ${myip}
+crudini --set /etc/nova/nova.conf DEFAULT novncproxy_host ${myip}
+crudini --set /etc/nova/nova.conf DEFAULT novncproxy_base_url http://${PHD_VAR_network_hosts_vip}:6080/vnc_auto.html
+crudini --set /etc/nova/nova.conf database connection mysql://nova:novatest@${PHD_VAR_network_hosts_vip}/nova
+crudini --set /etc/nova/nova.conf database max_retries -1
+crudini --set /etc/nova/nova.conf DEFAULT auth_strategy keystone
+crudini --set /etc/nova/nova.conf DEFAULT osapi_compute_listen ${myip}
+crudini --set /etc/nova/nova.conf DEFAULT metadata_host ${myip}
+crudini --set /etc/nova/nova.conf DEFAULT metadata_listen ${myip}
+crudini --set /etc/nova/nova.conf DEFAULT metadata_listen_port 8775
+crudini --set /etc/nova/nova.conf DEFAULT glance_host ${PHD_VAR_network_hosts_vip}
+crudini --set /etc/nova/nova.conf DEFAULT network_api_class nova.network.neutronv2.api.API
+crudini --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
+crudini --set /etc/nova/nova.conf libvirt vif_driver nova.virt.libvirt.vif.LibvirtGenericVIFDriver
+crudini --set /etc/nova/nova.conf DEFAULT security_group_api neutron
+crudini --set /etc/nova/nova.conf cinder cinder_catalog_info volume:cinder:internalURL
+crudini --set /etc/nova/nova.conf conductor use_local false
+crudini --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
+crudini --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_ha_queues True
+crudini --set /etc/nova/nova.conf neutron service_metadata_proxy True
+crudini --set /etc/nova/nova.conf neutron metadata_proxy_shared_secret metatest
+crudini --set /etc/nova/nova.conf neutron url http://${PHD_VAR_network_hosts_vip}:9696/
+crudini --set /etc/nova/nova.conf neutron admin_tenant_name services
+crudini --set /etc/nova/nova.conf neutron admin_username neutron
+crudini --set /etc/nova/nova.conf neutron admin_password neutrontest
+crudini --set /etc/nova/nova.conf neutron admin_auth_url http://${PHD_VAR_network_hosts_vip}:35357/v2.0
+crudini --set /etc/nova/nova.conf neutron region_name regionOne
 
 # REQUIRED FOR A/A scheduler
-openstack-config --set /etc/nova/nova.conf DEFAULT scheduler_host_subset_size 30
-openstack-config --set /etc/nova/api-paste.ini filter:authtoken identity_uri http://${PHD_VAR_network_hosts_vip}:35357/
-openstack-config --set /etc/nova/api-paste.ini filter:authtoken admin_tenant_name services
-openstack-config --set /etc/nova/api-paste.ini filter:authtoken admin_user compute
-openstack-config --set /etc/nova/api-paste.ini filter:authtoken admin_password novatest
+crudini --set /etc/nova/nova.conf DEFAULT scheduler_host_subset_size 30
+crudini --set /etc/nova/api-paste.ini filter:authtoken identity_uri http://${PHD_VAR_network_hosts_vip}:35357/
+crudini --set /etc/nova/api-paste.ini filter:authtoken admin_tenant_name services
+crudini --set /etc/nova/api-paste.ini filter:authtoken admin_user compute
+crudini --set /etc/nova/api-paste.ini filter:authtoken admin_password novatest
 
 # WARNING: Only run the following if your hypervisors are VMs
-openstack-config --set /etc/nova/nova.conf libvirt virt_type qemu
+crudini --set /etc/nova/nova.conf libvirt virt_type qemu
 ....
 
 target=$PHD_ENV_nodes1

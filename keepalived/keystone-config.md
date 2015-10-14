@@ -93,16 +93,16 @@ Configure Keystone
 On all nodes:
 
     export SERVICE_TOKEN=$(cat /root/keystone_service_token)
-    openstack-config --set /etc/keystone/keystone.conf DEFAULT admin_token $SERVICE_TOKEN
-    openstack-config --set /etc/keystone/keystone.conf DEFAULT rabbit_hosts hacontroller1,hacontroller2,hacontroller3
-    openstack-config --set /etc/keystone/keystone.conf DEFAULT rabbit_ha_queues true
-    openstack-config --set /etc/keystone/keystone.conf DEFAULT admin_endpoint 'http://controller-vip.example.com:%(admin_port)s/'
-    openstack-config --set /etc/keystone/keystone.conf DEFAULT public_endpoint 'http://controller-vip.example.com:%(public_port)s/'
-    openstack-config --set /etc/keystone/keystone.conf database connection mysql://keystone:keystonetest@controller-vip.example.com/keystone
-    openstack-config --set /etc/keystone/keystone.conf database max_retries -1
-    openstack-config --set /etc/keystone/keystone.conf DEFAULT public_bind_host 192.168.1.22X
-    openstack-config --set /etc/keystone/keystone.conf DEFAULT admin_bind_host 192.168.1.22X
-    openstack-config --set /etc/keystone/keystone.conf token driver  keystone.token.persistence.backends.sql.Token
+    crudini --set /etc/keystone/keystone.conf DEFAULT admin_token $SERVICE_TOKEN
+    crudini --set /etc/keystone/keystone.conf DEFAULT rabbit_hosts hacontroller1,hacontroller2,hacontroller3
+    crudini --set /etc/keystone/keystone.conf DEFAULT rabbit_ha_queues true
+    crudini --set /etc/keystone/keystone.conf DEFAULT admin_endpoint 'http://controller-vip.example.com:%(admin_port)s/'
+    crudini --set /etc/keystone/keystone.conf DEFAULT public_endpoint 'http://controller-vip.example.com:%(public_port)s/'
+    crudini --set /etc/keystone/keystone.conf database connection mysql://keystone:keystonetest@controller-vip.example.com/keystone
+    crudini --set /etc/keystone/keystone.conf database max_retries -1
+    crudini --set /etc/keystone/keystone.conf DEFAULT public_bind_host 192.168.1.22X
+    crudini --set /etc/keystone/keystone.conf DEFAULT admin_bind_host 192.168.1.22X
+    crudini --set /etc/keystone/keystone.conf token driver  keystone.token.persistence.backends.sql.Token
 
 Create and distribute PKI setup, manage DB
 ------------------------------------------

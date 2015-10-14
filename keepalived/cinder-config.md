@@ -15,21 +15,21 @@ Install software
 Configure
 ---------
 
-    openstack-config --set /etc/cinder/cinder.conf database connection mysql://cinder:cindertest@controller-vip.example.com/cinder
-    openstack-config --set /etc/cinder/cinder.conf database max_retries -1
-    openstack-config --set /etc/cinder/cinder.conf DEFAULT auth_strategy keystone
-    openstack-config --set /etc/cinder/cinder.conf keystone_authtoken identity_uri http://controller-vip.example.com:35357/
-    openstack-config --set /etc/cinder/cinder.conf keystone_authtoken admin_tenant_name services
-    openstack-config --set /etc/cinder/cinder.conf keystone_authtoken admin_user cinder
-    openstack-config --set /etc/cinder/cinder.conf keystone_authtoken admin_password cindertest
-    openstack-config --set /etc/cinder/cinder.conf DEFAULT notification_driver messaging
-    openstack-config --set /etc/cinder/cinder.conf DEFAULT control_exchange cinder
-    openstack-config --set /etc/cinder/cinder.conf DEFAULT glance_host controller-vip.example.com
-    openstack-config --set /etc/cinder/cinder.conf DEFAULT memcache_servers hacontroller1:11211,hacontroller2:11211,hacontroller3:11211
-    openstack-config --set /etc/cinder/cinder.conf DEFAULT host rhos7-cinder
-    openstack-config --set /etc/cinder/cinder.conf DEFAULT osapi_volume_listen 192.168.1.22X
-    openstack-config --set /etc/cinder/cinder.conf oslo_messaging_rabbit rabbit_hosts hacontroller1,hacontroller2,hacontroller3
-    openstack-config --set /etc/cinder/cinder.conf oslo_messaging_rabbit rabbit_ha_queues true
+    crudini --set /etc/cinder/cinder.conf database connection mysql://cinder:cindertest@controller-vip.example.com/cinder
+    crudini --set /etc/cinder/cinder.conf database max_retries -1
+    crudini --set /etc/cinder/cinder.conf DEFAULT auth_strategy keystone
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken identity_uri http://controller-vip.example.com:35357/
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken admin_tenant_name services
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken admin_user cinder
+    crudini --set /etc/cinder/cinder.conf keystone_authtoken admin_password cindertest
+    crudini --set /etc/cinder/cinder.conf DEFAULT notification_driver messaging
+    crudini --set /etc/cinder/cinder.conf DEFAULT control_exchange cinder
+    crudini --set /etc/cinder/cinder.conf DEFAULT glance_host controller-vip.example.com
+    crudini --set /etc/cinder/cinder.conf DEFAULT memcache_servers hacontroller1:11211,hacontroller2:11211,hacontroller3:11211
+    crudini --set /etc/cinder/cinder.conf DEFAULT host rhos7-cinder
+    crudini --set /etc/cinder/cinder.conf DEFAULT osapi_volume_listen 192.168.1.22X
+    crudini --set /etc/cinder/cinder.conf oslo_messaging_rabbit rabbit_hosts hacontroller1,hacontroller2,hacontroller3
+    crudini --set /etc/cinder/cinder.conf oslo_messaging_rabbit rabbit_ha_queues true
 
 **Note:** We are setting a single "host" entry for all nodes, this is related to the A/P issues with cinder-volume.
 
@@ -44,10 +44,10 @@ Configure NFS driver
 
     chown root:cinder /etc/cinder/nfs_exports
     chmod 0640 /etc/cinder/nfs_exports
-    openstack-config --set /etc/cinder/cinder.conf DEFAULT nfs_shares_config /etc/cinder/nfs_exports
-    openstack-config --set /etc/cinder/cinder.conf DEFAULT nfs_sparsed_volumes true
-    openstack-config --set /etc/cinder/cinder.conf DEFAULT nfs_mount_options v3
-    openstack-config --set /etc/cinder/cinder.conf DEFAULT volume_driver cinder.volume.drivers.nfs.NfsDriver
+    crudini --set /etc/cinder/cinder.conf DEFAULT nfs_shares_config /etc/cinder/nfs_exports
+    crudini --set /etc/cinder/cinder.conf DEFAULT nfs_sparsed_volumes true
+    crudini --set /etc/cinder/cinder.conf DEFAULT nfs_mount_options v3
+    crudini --set /etc/cinder/cinder.conf DEFAULT volume_driver cinder.volume.drivers.nfs.NfsDriver
 
 Manage DB
 ---------

@@ -127,16 +127,16 @@ echo "Listen ${myip}:5000" >> /etc/httpd/conf/httpd.conf
 echo "Listen ${myip}:35357" >> /etc/httpd/conf/httpd.conf
 
 export SERVICE_TOKEN=$(cat /root/keystone_service_token)
-openstack-config --set /etc/keystone/keystone.conf DEFAULT admin_token $SERVICE_TOKEN
-openstack-config --set /etc/keystone/keystone.conf DEFAULT rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
-openstack-config --set /etc/keystone/keystone.conf DEFAULT rabbit_ha_queues true
-openstack-config --set /etc/keystone/keystone.conf DEFAULT admin_endpoint "http://${PHD_VAR_network_hosts_vip}:%(admin_port)s/"
-openstack-config --set /etc/keystone/keystone.conf DEFAULT public_endpoint "http://${PHD_VAR_network_hosts_vip}:%(public_port)s/"
-openstack-config --set /etc/keystone/keystone.conf database connection mysql://keystone:keystonetest@${PHD_VAR_network_hosts_vip}/keystone
-openstack-config --set /etc/keystone/keystone.conf database max_retries -1
-openstack-config --set /etc/keystone/keystone.conf DEFAULT public_bind_host ${myip}
-openstack-config --set /etc/keystone/keystone.conf DEFAULT admin_bind_host ${myip}
-openstack-config --set /etc/keystone/keystone.conf token driver  keystone.token.persistence.backends.sql.Token
+crudini --set /etc/keystone/keystone.conf DEFAULT admin_token $SERVICE_TOKEN
+crudini --set /etc/keystone/keystone.conf DEFAULT rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
+crudini --set /etc/keystone/keystone.conf DEFAULT rabbit_ha_queues true
+crudini --set /etc/keystone/keystone.conf DEFAULT admin_endpoint "http://${PHD_VAR_network_hosts_vip}:%(admin_port)s/"
+crudini --set /etc/keystone/keystone.conf DEFAULT public_endpoint "http://${PHD_VAR_network_hosts_vip}:%(public_port)s/"
+crudini --set /etc/keystone/keystone.conf database connection mysql://keystone:keystonetest@${PHD_VAR_network_hosts_vip}/keystone
+crudini --set /etc/keystone/keystone.conf database max_retries -1
+crudini --set /etc/keystone/keystone.conf DEFAULT public_bind_host ${myip}
+crudini --set /etc/keystone/keystone.conf DEFAULT admin_bind_host ${myip}
+crudini --set /etc/keystone/keystone.conf token driver  keystone.token.persistence.backends.sql.Token
 ....
 
 target=$PHD_ENV_nodes1

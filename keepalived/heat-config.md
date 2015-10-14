@@ -31,35 +31,35 @@ Take note of the id for the domain you just created, and then run the following 
 
 On all nodes:
 
-    openstack-config --set /etc/heat/heat.conf DEFAULT stack_domain_admin_password heattest
-    openstack-config --set /etc/heat/heat.conf DEFAULT stack_domain_admin heat_domain_admin
-    openstack-config --set /etc/heat/heat.conf DEFAULT stack_user_domain_id ${HEAT_DOMAIN_ID}
+    crudini --set /etc/heat/heat.conf DEFAULT stack_domain_admin_password heattest
+    crudini --set /etc/heat/heat.conf DEFAULT stack_domain_admin heat_domain_admin
+    crudini --set /etc/heat/heat.conf DEFAULT stack_user_domain_id ${HEAT_DOMAIN_ID}
 
 Configure Heat
 --------------
 
-    openstack-config --set /etc/heat/heat.conf database connection mysql://heat:heattest@controller-vip.example.com/heat
-    openstack-config --set /etc/heat/heat.conf database max_retries -1
-    openstack-config --set /etc/heat/heat.conf keystone_authtoken admin_tenant_name services
-    openstack-config --set /etc/heat/heat.conf keystone_authtoken admin_user heat
-    openstack-config --set /etc/heat/heat.conf keystone_authtoken admin_password heattest
-    openstack-config --set /etc/heat/heat.conf keystone_authtoken service_host controller-vip.example.com
-    openstack-config --set /etc/heat/heat.conf keystone_authtoken identity_uri http://controller-vip.example.com:35357/
-    openstack-config --set /etc/heat/heat.conf keystone_authtoken auth_uri http://controller-vip.example.com:35357/v2.0
-    openstack-config --set /etc/heat/heat.conf keystone_authtoken keystone_ec2_uri http://controller-vip.example.com:35357/v2.0
-    openstack-config --set /etc/heat/heat.conf ec2authtoken auth_uri http://controller-vip.example.com:5000/v2.0
-    openstack-config --set /etc/heat/heat.conf DEFAULT memcache_servers hacontroller1:11211,hacontroller2:11211,hacontroller3:11211
-    openstack-config --set /etc/heat/heat.conf heat_api bind_host 192.168.1.22X
-    openstack-config --set /etc/heat/heat.conf heat_api_cfn bind_host 192.168.1.22X
-    openstack-config --set /etc/heat/heat.conf heat_api_cloudwatch bind_host 192.168.1.22X
-    openstack-config --set /etc/heat/heat.conf DEFAULT heat_metadata_server_url controller-vip.example.com:8000
-    openstack-config --set /etc/heat/heat.conf DEFAULT heat_waitcondition_server_url controller-vip.example.com:8000/v1/waitcondition
-    openstack-config --set /etc/heat/heat.conf DEFAULT heat_watch_server_url controller-vip.example.com:8003
-    openstack-config --set /etc/heat/heat.conf oslo_messaging_rabbit rabbit_hosts hacontroller1,hacontroller2,hacontroller3
-    openstack-config --set /etc/heat/heat.conf oslo_messaging_rabbit rabbit_ha_queues true
-    openstack-config --set /etc/heat/heat.conf DEFAULT rpc_backend rabbit
-    openstack-config --set /etc/heat/heat.conf DEFAULT notification_driver heat.openstack.common.notifier.rpc_notifier
-    openstack-config --set /etc/heat/heat.conf DEFAULT enable_cloud_watch_lite false
+    crudini --set /etc/heat/heat.conf database connection mysql://heat:heattest@controller-vip.example.com/heat
+    crudini --set /etc/heat/heat.conf database max_retries -1
+    crudini --set /etc/heat/heat.conf keystone_authtoken admin_tenant_name services
+    crudini --set /etc/heat/heat.conf keystone_authtoken admin_user heat
+    crudini --set /etc/heat/heat.conf keystone_authtoken admin_password heattest
+    crudini --set /etc/heat/heat.conf keystone_authtoken service_host controller-vip.example.com
+    crudini --set /etc/heat/heat.conf keystone_authtoken identity_uri http://controller-vip.example.com:35357/
+    crudini --set /etc/heat/heat.conf keystone_authtoken auth_uri http://controller-vip.example.com:35357/v2.0
+    crudini --set /etc/heat/heat.conf keystone_authtoken keystone_ec2_uri http://controller-vip.example.com:35357/v2.0
+    crudini --set /etc/heat/heat.conf ec2authtoken auth_uri http://controller-vip.example.com:5000/v2.0
+    crudini --set /etc/heat/heat.conf DEFAULT memcache_servers hacontroller1:11211,hacontroller2:11211,hacontroller3:11211
+    crudini --set /etc/heat/heat.conf heat_api bind_host 192.168.1.22X
+    crudini --set /etc/heat/heat.conf heat_api_cfn bind_host 192.168.1.22X
+    crudini --set /etc/heat/heat.conf heat_api_cloudwatch bind_host 192.168.1.22X
+    crudini --set /etc/heat/heat.conf DEFAULT heat_metadata_server_url controller-vip.example.com:8000
+    crudini --set /etc/heat/heat.conf DEFAULT heat_waitcondition_server_url controller-vip.example.com:8000/v1/waitcondition
+    crudini --set /etc/heat/heat.conf DEFAULT heat_watch_server_url controller-vip.example.com:8003
+    crudini --set /etc/heat/heat.conf oslo_messaging_rabbit rabbit_hosts hacontroller1,hacontroller2,hacontroller3
+    crudini --set /etc/heat/heat.conf oslo_messaging_rabbit rabbit_ha_queues true
+    crudini --set /etc/heat/heat.conf DEFAULT rpc_backend rabbit
+    crudini --set /etc/heat/heat.conf DEFAULT notification_driver heat.openstack.common.notifier.rpc_notifier
+    crudini --set /etc/heat/heat.conf DEFAULT enable_cloud_watch_lite false
 
 Manage DB
 ---------

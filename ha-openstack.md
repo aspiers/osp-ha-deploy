@@ -52,7 +52,7 @@ Read them carefully before considering to run them in your own environment.
 - Bare metal could be used in place of any or all guests.
 - Most of the scripts contain shell expansion to automatically fill in some values.  Use your common sense when parsing data. Example:
 
-  `openstack-config --set /etc/nova/nova.conf DEFAULT vncserver_proxyclient_address $(ip addr show dev vmnet0 scope global | grep inet | sed -e 's#.*inet ##g' -e    's#/.*##g')`
+  `crudini --set /etc/nova/nova.conf DEFAULT vncserver_proxyclient_address $(ip addr show dev vmnet0 scope global | grep inet | sed -e 's#.*inet ##g' -e    's#/.*##g')`
 
   means that we want the IP address from vmnet0 as vncserver_proxyclient_address.
 

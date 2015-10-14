@@ -51,21 +51,21 @@ myip=$(ip a |grep ${PHD_VAR_network_nic_internal} | grep inet | awk '{print $2}'
 
 yum install -y openstack-cinder openstack-utils openstack-selinux python-memcached
 
-openstack-config --set /etc/cinder/cinder.conf database connection mysql://cinder:cindertest@${PHD_VAR_network_hosts_vip}/cinder
-openstack-config --set /etc/cinder/cinder.conf database max_retries -1
-openstack-config --set /etc/cinder/cinder.conf DEFAULT auth_strategy keystone
-openstack-config --set /etc/cinder/cinder.conf keystone_authtoken identity_uri http://${PHD_VAR_network_hosts_vip}:35357/
-openstack-config --set /etc/cinder/cinder.conf keystone_authtoken admin_tenant_name services
-openstack-config --set /etc/cinder/cinder.conf keystone_authtoken admin_user cinder
-openstack-config --set /etc/cinder/cinder.conf keystone_authtoken admin_password cindertest
-openstack-config --set /etc/cinder/cinder.conf DEFAULT notification_driver messaging
-openstack-config --set /etc/cinder/cinder.conf DEFAULT control_exchange cinder
-openstack-config --set /etc/cinder/cinder.conf DEFAULT glance_host ${PHD_VAR_network_hosts_vip}
-openstack-config --set /etc/cinder/cinder.conf DEFAULT memcache_servers ${PHD_VAR_network_hosts_memcache}
-openstack-config --set /etc/cinder/cinder.conf DEFAULT host rhos7-cinder
-openstack-config --set /etc/cinder/cinder.conf DEFAULT osapi_volume_listen ${myip}
-openstack-config --set /etc/cinder/cinder.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
-openstack-config --set /etc/cinder/cinder.conf oslo_messaging_rabbit rabbit_ha_queues true
+crudini --set /etc/cinder/cinder.conf database connection mysql://cinder:cindertest@${PHD_VAR_network_hosts_vip}/cinder
+crudini --set /etc/cinder/cinder.conf database max_retries -1
+crudini --set /etc/cinder/cinder.conf DEFAULT auth_strategy keystone
+crudini --set /etc/cinder/cinder.conf keystone_authtoken identity_uri http://${PHD_VAR_network_hosts_vip}:35357/
+crudini --set /etc/cinder/cinder.conf keystone_authtoken admin_tenant_name services
+crudini --set /etc/cinder/cinder.conf keystone_authtoken admin_user cinder
+crudini --set /etc/cinder/cinder.conf keystone_authtoken admin_password cindertest
+crudini --set /etc/cinder/cinder.conf DEFAULT notification_driver messaging
+crudini --set /etc/cinder/cinder.conf DEFAULT control_exchange cinder
+crudini --set /etc/cinder/cinder.conf DEFAULT glance_host ${PHD_VAR_network_hosts_vip}
+crudini --set /etc/cinder/cinder.conf DEFAULT memcache_servers ${PHD_VAR_network_hosts_memcache}
+crudini --set /etc/cinder/cinder.conf DEFAULT host rhos7-cinder
+crudini --set /etc/cinder/cinder.conf DEFAULT osapi_volume_listen ${myip}
+crudini --set /etc/cinder/cinder.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
+crudini --set /etc/cinder/cinder.conf oslo_messaging_rabbit rabbit_ha_queues true
 
 cat > /etc/cinder/nfs_exports << EOF
 ${PHD_VAR_network_nfs_cindershare}
@@ -73,10 +73,10 @@ EOF
 
 chown root:cinder /etc/cinder/nfs_exports
 chmod 0640 /etc/cinder/nfs_exports
-openstack-config --set /etc/cinder/cinder.conf DEFAULT nfs_shares_config /etc/cinder/nfs_exports
-openstack-config --set /etc/cinder/cinder.conf DEFAULT nfs_sparsed_volumes true
-openstack-config --set /etc/cinder/cinder.conf DEFAULT nfs_mount_options v3
-openstack-config --set /etc/cinder/cinder.conf DEFAULT volume_driver cinder.volume.drivers.nfs.NfsDriver
+crudini --set /etc/cinder/cinder.conf DEFAULT nfs_shares_config /etc/cinder/nfs_exports
+crudini --set /etc/cinder/cinder.conf DEFAULT nfs_sparsed_volumes true
+crudini --set /etc/cinder/cinder.conf DEFAULT nfs_mount_options v3
+crudini --set /etc/cinder/cinder.conf DEFAULT volume_driver cinder.volume.drivers.nfs.NfsDriver
 
 ....
 

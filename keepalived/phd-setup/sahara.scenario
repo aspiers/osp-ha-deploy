@@ -55,25 +55,25 @@ myip=$(ip a |grep ${PHD_VAR_network_nic_internal} | grep inet | awk '{print $2}'
 
 yum install -y openstack-sahara-api openstack-sahara-engine openstack-sahara-common openstack-sahara python-saharaclient
 
-openstack-config --set /etc/sahara/sahara.conf DEFAULT host ${myip}
-openstack-config --set /etc/sahara/sahara.conf DEFAULT use_floating_ips True
-openstack-config --set /etc/sahara/sahara.conf DEFAULT use_neutron True
-openstack-config --set /etc/sahara/sahara.conf DEFAULT rpc_backend rabbit
-openstack-config --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
-openstack-config --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_port 5672
-openstack-config --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_use_ssl False
-openstack-config --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_userid guest
-openstack-config --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_password guest
-openstack-config --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_login_method AMQPLAIN
-openstack-config --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_ha_queues true
-openstack-config --set /etc/sahara/sahara.conf DEFAULT notification_topics notifications
-openstack-config --set /etc/sahara/sahara.conf database connection mysql://sahara:saharatest@${PHD_VAR_network_hosts_vip}/sahara
-openstack-config --set /etc/sahara/sahara.conf keystone_authtoken auth_uri http://${PHD_VAR_network_hosts_vip}:5000/v2.0
-openstack-config --set /etc/sahara/sahara.conf keystone_authtoken identity_uri http://${PHD_VAR_network_hosts_vip}:35357/
-openstack-config --set /etc/sahara/sahara.conf keystone_authtoken admin_user sahara
-openstack-config --set /etc/sahara/sahara.conf keystone_authtoken admin_password saharatest
-openstack-config --set /etc/sahara/sahara.conf keystone_authtoken admin_tenant_name services
-openstack-config --set /etc/sahara/sahara.conf DEFAULT log_file /var/log/sahara/sahara.log
+crudini --set /etc/sahara/sahara.conf DEFAULT host ${myip}
+crudini --set /etc/sahara/sahara.conf DEFAULT use_floating_ips True
+crudini --set /etc/sahara/sahara.conf DEFAULT use_neutron True
+crudini --set /etc/sahara/sahara.conf DEFAULT rpc_backend rabbit
+crudini --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
+crudini --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_port 5672
+crudini --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_use_ssl False
+crudini --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_userid guest
+crudini --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_password guest
+crudini --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_login_method AMQPLAIN
+crudini --set /etc/sahara/sahara.conf oslo_messaging_rabbit rabbit_ha_queues true
+crudini --set /etc/sahara/sahara.conf DEFAULT notification_topics notifications
+crudini --set /etc/sahara/sahara.conf database connection mysql://sahara:saharatest@${PHD_VAR_network_hosts_vip}/sahara
+crudini --set /etc/sahara/sahara.conf keystone_authtoken auth_uri http://${PHD_VAR_network_hosts_vip}:5000/v2.0
+crudini --set /etc/sahara/sahara.conf keystone_authtoken identity_uri http://${PHD_VAR_network_hosts_vip}:35357/
+crudini --set /etc/sahara/sahara.conf keystone_authtoken admin_user sahara
+crudini --set /etc/sahara/sahara.conf keystone_authtoken admin_password saharatest
+crudini --set /etc/sahara/sahara.conf keystone_authtoken admin_tenant_name services
+crudini --set /etc/sahara/sahara.conf DEFAULT log_file /var/log/sahara/sahara.log
 ....
 
 target=$PHD_ENV_nodes1

@@ -17,29 +17,29 @@ Install software
 Configure ceilometer
 --------------------
 
-    openstack-config --set /etc/ceilometer/ceilometer.conf keystone_authtoken identity_uri http://controller-vip.example.com:35357/
-    openstack-config --set /etc/ceilometer/ceilometer.conf keystone_authtoken admin_tenant_name services
-    openstack-config --set /etc/ceilometer/ceilometer.conf keystone_authtoken admin_user ceilometer
-    openstack-config --set /etc/ceilometer/ceilometer.conf keystone_authtoken admin_password ceilometertest
-    openstack-config --set /etc/ceilometer/ceilometer.conf DEFAULT memcache_servers hacontroller1:11211,hacontroller2:11211,hacontroller3:11211
-    openstack-config --set /etc/ceilometer/ceilometer.conf oslo_messaging_rabbit rabbit_hosts hacontroller1,hacontroller2,hacontroller3
-    openstack-config --set /etc/ceilometer/ceilometer.conf oslo_messaging_rabbit rabbit_ha_queues true
-    openstack-config --set /etc/ceilometer/ceilometer.conf publisher telemetry_secret ceilometersecret
-    openstack-config --set /etc/ceilometer/ceilometer.conf service_credentials os_auth_url http://controller-vip.example.com:5000/v2.0 
-    openstack-config --set /etc/ceilometer/ceilometer.conf service_credentials os_username ceilometer
-    openstack-config --set /etc/ceilometer/ceilometer.conf service_credentials os_tenant_name services
-    openstack-config --set /etc/ceilometer/ceilometer.conf service_credentials os_password ceilometertest
-    openstack-config --set /etc/ceilometer/ceilometer.conf database connection mongodb://hacontroller1,hacontroller2,hacontroller3:27017/ceilometer?replicaSet=ceilometer
-    openstack-config --set /etc/ceilometer/ceilometer.conf database max_retries -1
+    crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken identity_uri http://controller-vip.example.com:35357/
+    crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken admin_tenant_name services
+    crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken admin_user ceilometer
+    crudini --set /etc/ceilometer/ceilometer.conf keystone_authtoken admin_password ceilometertest
+    crudini --set /etc/ceilometer/ceilometer.conf DEFAULT memcache_servers hacontroller1:11211,hacontroller2:11211,hacontroller3:11211
+    crudini --set /etc/ceilometer/ceilometer.conf oslo_messaging_rabbit rabbit_hosts hacontroller1,hacontroller2,hacontroller3
+    crudini --set /etc/ceilometer/ceilometer.conf oslo_messaging_rabbit rabbit_ha_queues true
+    crudini --set /etc/ceilometer/ceilometer.conf publisher telemetry_secret ceilometersecret
+    crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_auth_url http://controller-vip.example.com:5000/v2.0 
+    crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_username ceilometer
+    crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_tenant_name services
+    crudini --set /etc/ceilometer/ceilometer.conf service_credentials os_password ceilometertest
+    crudini --set /etc/ceilometer/ceilometer.conf database connection mongodb://hacontroller1,hacontroller2,hacontroller3:27017/ceilometer?replicaSet=ceilometer
+    crudini --set /etc/ceilometer/ceilometer.conf database max_retries -1
 
     # keep last 5 days data only (value is in secs)
-    openstack-config --set /etc/ceilometer/ceilometer.conf database metering_time_to_live 432000
-    openstack-config --set /etc/ceilometer/ceilometer.conf api host 192.168.1.22X
+    crudini --set /etc/ceilometer/ceilometer.conf database metering_time_to_live 432000
+    crudini --set /etc/ceilometer/ceilometer.conf api host 192.168.1.22X
 
 Configure coordination URL
 --------------------------
 
-    openstack-config --set /etc/ceilometer/ceilometer.conf coordination backend_url 'redis://hacontroller1:26379?sentinel=mymaster&sentinel_fallback=hacontroller2:26379&sentinel_fallback=hacontroller3:26379'
+    crudini --set /etc/ceilometer/ceilometer.conf coordination backend_url 'redis://hacontroller1:26379?sentinel=mymaster&sentinel_fallback=hacontroller2:26379&sentinel_fallback=hacontroller3:26379'
 
 Enable and start Ceilometer services, open firewall ports
 ---------------------------------------------------------

@@ -13,26 +13,26 @@ Install software
 Configure glance-api and glance-registry
 ----------------------------------------
 
-    openstack-config --set /etc/glance/glance-api.conf database connection mysql://glance:glancetest@controller-vip.example.com/glance
-    openstack-config --set /etc/glance/glance-api.conf database max_retries -1
-    openstack-config --set /etc/glance/glance-api.conf paste_deploy flavor keystone
-    openstack-config --set /etc/glance/glance-api.conf keystone_authtoken identity_uri http://controller-vip.example.com:35357/ 
-    openstack-config --set /etc/glance/glance-api.conf keystone_authtoken admin_tenant_name services
-    openstack-config --set /etc/glance/glance-api.conf keystone_authtoken admin_user glance
-    openstack-config --set /etc/glance/glance-api.conf keystone_authtoken admin_password glancetest
-    openstack-config --set /etc/glance/glance-api.conf DEFAULT notification_driver messaging
-    openstack-config --set /etc/glance/glance-api.conf DEFAULT bind_host 192.168.1.22X
-    openstack-config --set /etc/glance/glance-api.conf DEFAULT registry_host controller-vip.example.com
-    openstack-config --set /etc/glance/glance-api.conf oslo_messaging_rabbit rabbit_hosts hacontroller1,hacontroller2,hacontroller3
-    openstack-config --set /etc/glance/glance-api.conf oslo_messaging_rabbit rabbit_ha_queues true
-    openstack-config --set /etc/glance/glance-registry.conf database connection mysql://glance:glancetest@controller-vip.example.com/glance
-    openstack-config --set /etc/glance/glance-registry.conf database max_retries -1
-    openstack-config --set /etc/glance/glance-registry.conf paste_deploy flavor keystone
-    openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken identity_uri http://controller-vip.example.com:35357/
-    openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken admin_tenant_name services
-    openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken admin_user glance
-    openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken admin_password glancetest
-    openstack-config --set /etc/glance/glance-registry.conf DEFAULT bind_host 192.168.1.22X
+    crudini --set /etc/glance/glance-api.conf database connection mysql://glance:glancetest@controller-vip.example.com/glance
+    crudini --set /etc/glance/glance-api.conf database max_retries -1
+    crudini --set /etc/glance/glance-api.conf paste_deploy flavor keystone
+    crudini --set /etc/glance/glance-api.conf keystone_authtoken identity_uri http://controller-vip.example.com:35357/ 
+    crudini --set /etc/glance/glance-api.conf keystone_authtoken admin_tenant_name services
+    crudini --set /etc/glance/glance-api.conf keystone_authtoken admin_user glance
+    crudini --set /etc/glance/glance-api.conf keystone_authtoken admin_password glancetest
+    crudini --set /etc/glance/glance-api.conf DEFAULT notification_driver messaging
+    crudini --set /etc/glance/glance-api.conf DEFAULT bind_host 192.168.1.22X
+    crudini --set /etc/glance/glance-api.conf DEFAULT registry_host controller-vip.example.com
+    crudini --set /etc/glance/glance-api.conf oslo_messaging_rabbit rabbit_hosts hacontroller1,hacontroller2,hacontroller3
+    crudini --set /etc/glance/glance-api.conf oslo_messaging_rabbit rabbit_ha_queues true
+    crudini --set /etc/glance/glance-registry.conf database connection mysql://glance:glancetest@controller-vip.example.com/glance
+    crudini --set /etc/glance/glance-registry.conf database max_retries -1
+    crudini --set /etc/glance/glance-registry.conf paste_deploy flavor keystone
+    crudini --set /etc/glance/glance-registry.conf keystone_authtoken identity_uri http://controller-vip.example.com:35357/
+    crudini --set /etc/glance/glance-registry.conf keystone_authtoken admin_tenant_name services
+    crudini --set /etc/glance/glance-registry.conf keystone_authtoken admin_user glance
+    crudini --set /etc/glance/glance-registry.conf keystone_authtoken admin_password glancetest
+    crudini --set /etc/glance/glance-registry.conf DEFAULT bind_host 192.168.1.22X
 
 Manage DB
 ---------

@@ -49,26 +49,26 @@ target=all
 myip=$(ip a |grep ${PHD_VAR_network_nic_internal} | grep inet | awk '{print $2}' | awk -F/ '{print $1}' | head -n 1)
 
 yum install -y openstack-glance openstack-utils openstack-selinux nfs-utils
-openstack-config --set /etc/glance/glance-api.conf database connection mysql://glance:glancetest@${PHD_VAR_network_hosts_vip}/glance
-openstack-config --set /etc/glance/glance-api.conf database max_retries -1
-openstack-config --set /etc/glance/glance-api.conf paste_deploy flavor keystone
-openstack-config --set /etc/glance/glance-api.conf keystone_authtoken identity_uri http://${PHD_VAR_network_hosts_vip}:35357/ 
-openstack-config --set /etc/glance/glance-api.conf keystone_authtoken admin_tenant_name services
-openstack-config --set /etc/glance/glance-api.conf keystone_authtoken admin_user glance
-openstack-config --set /etc/glance/glance-api.conf keystone_authtoken admin_password glancetest
-openstack-config --set /etc/glance/glance-api.conf DEFAULT notification_driver messaging
-openstack-config --set /etc/glance/glance-api.conf DEFAULT bind_host ${myip}
-openstack-config --set /etc/glance/glance-api.conf DEFAULT registry_host ${PHD_VAR_network_hosts_vip}
-openstack-config --set /etc/glance/glance-api.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
-openstack-config --set /etc/glance/glance-api.conf oslo_messaging_rabbit rabbit_ha_queues true
-openstack-config --set /etc/glance/glance-registry.conf database connection mysql://glance:glancetest@${PHD_VAR_network_hosts_vip}/glance
-openstack-config --set /etc/glance/glance-registry.conf database max_retries -1
-openstack-config --set /etc/glance/glance-registry.conf paste_deploy flavor keystone
-openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken identity_uri http://${PHD_VAR_network_hosts_vip}:35357/
-openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken admin_tenant_name services
-openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken admin_user glance
-openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken admin_password glancetest
-openstack-config --set /etc/glance/glance-registry.conf DEFAULT bind_host ${myip}
+crudini --set /etc/glance/glance-api.conf database connection mysql://glance:glancetest@${PHD_VAR_network_hosts_vip}/glance
+crudini --set /etc/glance/glance-api.conf database max_retries -1
+crudini --set /etc/glance/glance-api.conf paste_deploy flavor keystone
+crudini --set /etc/glance/glance-api.conf keystone_authtoken identity_uri http://${PHD_VAR_network_hosts_vip}:35357/ 
+crudini --set /etc/glance/glance-api.conf keystone_authtoken admin_tenant_name services
+crudini --set /etc/glance/glance-api.conf keystone_authtoken admin_user glance
+crudini --set /etc/glance/glance-api.conf keystone_authtoken admin_password glancetest
+crudini --set /etc/glance/glance-api.conf DEFAULT notification_driver messaging
+crudini --set /etc/glance/glance-api.conf DEFAULT bind_host ${myip}
+crudini --set /etc/glance/glance-api.conf DEFAULT registry_host ${PHD_VAR_network_hosts_vip}
+crudini --set /etc/glance/glance-api.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
+crudini --set /etc/glance/glance-api.conf oslo_messaging_rabbit rabbit_ha_queues true
+crudini --set /etc/glance/glance-registry.conf database connection mysql://glance:glancetest@${PHD_VAR_network_hosts_vip}/glance
+crudini --set /etc/glance/glance-registry.conf database max_retries -1
+crudini --set /etc/glance/glance-registry.conf paste_deploy flavor keystone
+crudini --set /etc/glance/glance-registry.conf keystone_authtoken identity_uri http://${PHD_VAR_network_hosts_vip}:35357/
+crudini --set /etc/glance/glance-registry.conf keystone_authtoken admin_tenant_name services
+crudini --set /etc/glance/glance-registry.conf keystone_authtoken admin_user glance
+crudini --set /etc/glance/glance-registry.conf keystone_authtoken admin_password glancetest
+crudini --set /etc/glance/glance-registry.conf DEFAULT bind_host ${myip}
 ....
 
 target=$PHD_ENV_nodes1

@@ -25,12 +25,12 @@ Create XFS file system for additional disk, and mount it
 Configure account, container and object services
 ------------------------------------------------
 
-    openstack-config --set /etc/swift/object-server.conf DEFAULT bind_ip 192.168.1.22X
-    openstack-config --set /etc/swift/object-server.conf DEFAULT devices /srv/node
-    openstack-config --set /etc/swift/account-server.conf DEFAULT bind_ip 192.168.1.22X
-    openstack-config --set /etc/swift/account-server.conf DEFAULT devices /srv/node
-    openstack-config --set /etc/swift/container-server.conf DEFAULT bind_ip 192.168.1.22X
-    openstack-config --set /etc/swift/container-server.conf DEFAULT devices /srv/node
+    crudini --set /etc/swift/object-server.conf DEFAULT bind_ip 192.168.1.22X
+    crudini --set /etc/swift/object-server.conf DEFAULT devices /srv/node
+    crudini --set /etc/swift/account-server.conf DEFAULT bind_ip 192.168.1.22X
+    crudini --set /etc/swift/account-server.conf DEFAULT devices /srv/node
+    crudini --set /etc/swift/container-server.conf DEFAULT bind_ip 192.168.1.22X
+    crudini --set /etc/swift/container-server.conf DEFAULT devices /srv/node
     chown -R root:swift /etc/swift
 
 Start account, container and object services, open firewall ports
@@ -53,21 +53,21 @@ Start account, container and object services, open firewall ports
 Configure swift proxy and object expirer
 ----------------------------------------
 
-    openstack-config --set /etc/swift/proxy-server.conf filter:authtoken identity_uri http://controller-vip.example.com:35357/
-    openstack-config --set /etc/swift/proxy-server.conf filter:authtoken admin_tenant_name services
-    openstack-config --set /etc/swift/proxy-server.conf filter:authtoken admin_user swift
-    openstack-config --set /etc/swift/proxy-server.conf filter:authtoken admin_password swifttest
-    openstack-config --set /etc/swift/proxy-server.conf filter:cache memcache_servers hacontroller1:11211,hacontroller2:11211,hacontroller3:11211
-    openstack-config --set /etc/swift/proxy-server.conf DEFAULT bind_ip 192.168.1.22X
-    openstack-config --set /etc/swift/object-expirer.conf filter:cache memcache_servers hacontroller1:11211,hacontroller2:11211,hacontroller3:11211
-    openstack-config --set /etc/swift/object-expirer.conf object-expirer concurrency 100
+    crudini --set /etc/swift/proxy-server.conf filter:authtoken identity_uri http://controller-vip.example.com:35357/
+    crudini --set /etc/swift/proxy-server.conf filter:authtoken admin_tenant_name services
+    crudini --set /etc/swift/proxy-server.conf filter:authtoken admin_user swift
+    crudini --set /etc/swift/proxy-server.conf filter:authtoken admin_password swifttest
+    crudini --set /etc/swift/proxy-server.conf filter:cache memcache_servers hacontroller1:11211,hacontroller2:11211,hacontroller3:11211
+    crudini --set /etc/swift/proxy-server.conf DEFAULT bind_ip 192.168.1.22X
+    crudini --set /etc/swift/object-expirer.conf filter:cache memcache_servers hacontroller1:11211,hacontroller2:11211,hacontroller3:11211
+    crudini --set /etc/swift/object-expirer.conf object-expirer concurrency 100
 
 Configure hash path suffix
 --------------------------
 
 On node 1:
 
-    openstack-config --set /etc/swift/swift.conf swift-hash swift_hash_path_suffix $(openssl rand -hex 10)
+    crudini --set /etc/swift/swift.conf swift-hash swift_hash_path_suffix $(openssl rand -hex 10)
 
 Set Ceilometer hook
 -------------------

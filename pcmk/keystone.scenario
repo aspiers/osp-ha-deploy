@@ -47,37 +47,37 @@ yum install -y openstack-keystone openstack-utils python-openstackclient
 
 mkdir -p ${PHD_VAR_osp_configdir}
 
-openstack-config --set /etc/keystone/keystone.conf DEFAULT admin_token ${PHD_VAR_secrets_keystone_secret}
+crudini --set /etc/keystone/keystone.conf DEFAULT admin_token ${PHD_VAR_secrets_keystone_secret}
 
-openstack-config --set /etc/keystone/keystone.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
-openstack-config --set /etc/keystone/keystone.conf oslo_messaging_rabbit rabbit_ha_queues true
-openstack-config --set /etc/keystone/keystone.conf oslo_messaging_rabbit heartbeat_timeout_threshold 60
+crudini --set /etc/keystone/keystone.conf oslo_messaging_rabbit rabbit_hosts ${PHD_VAR_network_hosts_rabbitmq}
+crudini --set /etc/keystone/keystone.conf oslo_messaging_rabbit rabbit_ha_queues true
+crudini --set /etc/keystone/keystone.conf oslo_messaging_rabbit heartbeat_timeout_threshold 60
 
 # Define the API endpoints. Be careful with replacing vip-keystone and shell escapes.
 
-openstack-config --set /etc/keystone/keystone.conf DEFAULT admin_endpoint 'http://vip-keystone:%(admin_port)s/'
-openstack-config --set /etc/keystone/keystone.conf DEFAULT public_endpoint 'http://vip-keystone:%(public_port)s/'
+crudini --set /etc/keystone/keystone.conf DEFAULT admin_endpoint 'http://vip-keystone:%(admin_port)s/'
+crudini --set /etc/keystone/keystone.conf DEFAULT public_endpoint 'http://vip-keystone:%(public_port)s/'
 
 # Configure access to galera. Note that several entries in here are dependent on
 # what has been configured before. 'keystone' user, 'keystonetest' password, 
 # vip-db.
 
-openstack-config --set /etc/keystone/keystone.conf database connection mysql://keystone:keystonetest@vip-db/keystone
+crudini --set /etc/keystone/keystone.conf database connection mysql://keystone:keystonetest@vip-db/keystone
 
 # Mare sure to retry connection to the DB if the DB is not available immediately at 
 # service startup.
 
-openstack-config --set /etc/keystone/keystone.conf database max_retries -1
+crudini --set /etc/keystone/keystone.conf database max_retries -1
 
 # Make sure the API service is listening on the internal IP addresses only.
 # Once again those shell expansions only work for my specific environment.
 
 # phase3: those are obsoleted by mod_wsgi and apache
-openstack-config --set /etc/keystone/keystone.conf eventlet_server public_bind_host $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
-openstack-config --set /etc/keystone/keystone.conf eventlet_server admin_bind_host $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
+crudini --set /etc/keystone/keystone.conf eventlet_server public_bind_host $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
+crudini --set /etc/keystone/keystone.conf eventlet_server admin_bind_host $(ip addr show dev eth1 scope global | grep dynamic| sed -e 's#.*inet ##g' -e 's#/.*##g')
 
 # workaround for buggy packaging (ayoung is informed)
-openstack-config --set /etc/keystone/keystone.conf token driver keystone.token.persistence.backends.sql.Token
+crudini --set /etc/keystone/keystone.conf token driver keystone.token.persistence.backends.sql.Token
 
 if [ ! -e ${PHD_VAR_osp_configdir}/keystone_ssl.tar ]; then
     keystone-manage pki_setup --keystone-user keystone --keystone-group keystone
