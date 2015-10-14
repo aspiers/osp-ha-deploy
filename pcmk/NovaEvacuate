@@ -141,7 +141,7 @@ evacuate_start() {
 }
 
 update_evacuation() {
-    attrd_updater -p -n evacute -Q -N ${1} -v ${2}
+    attrd_updater -p -n evacuate -Q -N ${1} -v ${2}
     arc=$?
     if [ ${arc} != 0 ]; then
 	ocf_log warn "Can not set evacuation state of ${1} to ${2}: ${arc}"
@@ -220,7 +220,7 @@ evacuate_monitor() {
     fi
 
     handle_evacuations $(
-        attrd_updater -n evacute -A |
+        attrd_updater -n evacuate -A |
             sed 's/ value=""/ value="no"/' |
             tr '="' '  ' |
             awk '{print $4" "$6}'
