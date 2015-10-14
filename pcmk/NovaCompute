@@ -307,9 +307,8 @@ nova_validate() {
 	fence_options="${fence_options} -e ${OCF_RESKEY_endpoint_type}"
     fi
 
-    # we take a chance here and hope that host is either not configured
-    # or configured in nova.conf
-
+    # We take a chance here and hope that host is either not configured
+    # or configured in nova.conf.
     NOVA_HOST=$(openstack-config --get /etc/nova/nova.conf DEFAULT host 2>/dev/null)
     if [ $? = 1 ]; then
 	if [ "x${OCF_RESKEY_domain}" != x ]; then
@@ -319,7 +318,7 @@ nova_validate() {
 	fi
     fi
 
-    # We only need to check a configured value, calculated ones are fine
+    # If the host is configured in nova.conf, check that it's not a FQDN.
     openstack-config --get /etc/nova/nova.conf DEFAULT host 2>/dev/null
     if [ $? = 0 ]; then
 	if [ "x${OCF_RESKEY_domain}" != x ]; then
