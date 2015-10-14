@@ -160,17 +160,17 @@ nova_start() {
     fi
 
     state=$(attrd_updater -p -n evacute -N ${NOVA_HOST} | sed -e 's/.*value=//' | tr -d '"' )
-    if [ "x$state" = x ]; then
+    if [ -z "$state" ]; then
 	: never been fenced
 
-    elif [ "x$state" = xno ]; then
+    elif [ "$state" = no ]; then
 	: has been evacuated, however it could have been 1s ago
 	ocf_log info "Pausing to give evacuations from ${NOVA_HOST} time to complete"
 	sleep ${OCF_RESKEY_evacuation_delay}
 
     else
 	ocf_log info "Waiting for pending evacuations from ${NOVA_HOST}"
-	while [ "x$state" != "xno" ]; do
+	while [ "$state" != "no" ]; do
 	    state=$(attrd_updater -p -n evacute -N ${NOVA_HOST} | sed -e 's/.*value=//' | tr -d '"' )
 	    sleep 5
 	done
@@ -193,7 +193,7 @@ nova_start() {
 ##   issues and it is unnecessary since fence_compute doesn't disable
 ##   the service
 
-#    if [ "x${OCF_RESKEY_domain}" != x ]; then
+#    if [ -n "${OCF_RESKEY_domain}" ]; then
 #	export service_host="${NOVA_HOST}.${OCF_RESKEY_domain}"
 #    else
 #	export service_host="${NOVA_HOST}"
@@ -212,11 +212,11 @@ nova_start() {
 
 nova_stop() {
     pid=$(nova_pid)
-    if [ "x$pid" != x ]; then
+    if [ -n "$pid" ]; then
 	su nova -c "kill -TERM $pid" -s /bin/bash	
     fi
 
-    while [ "x$pid" != x ]; do
+    while [ -n "$pid" ]; do
 	sleep 1
 	pid=$(nova_pid)
     done
@@ -226,12 +226,12 @@ nova_stop() {
 
 nova_monitor() {
     pid=$(nova_pid)
-    if [ "x$pid" != x ]; then
+    if [ -n "$pid" ]; then
 	## TEMPORARY disable call to fence_compute to avoid noise on first
 	## first startup due to nova-compute not being fast enough to populate
 	## the db and fence_compute checking if node exists and it's enabled
 	#state=$(fence_compute ${fence_options} -o status -n $NOVA_HOST | grep Status)
-	#if [ "x$state" = "xStatus: ON" ]; then
+	#if [ "$state" = "Status: ON" ]; then
 	    return $OCF_SUCCESS
 	#else
 	#    ocf_exit_reason "Nova status: $state"
@@ -311,7 +311,7 @@ nova_validate() {
     # or configured in nova.conf.
     NOVA_HOST=$(openstack-config --get /etc/nova/nova.conf DEFAULT host 2>/dev/null)
     if [ $? = 1 ]; then
-	if [ "x${OCF_RESKEY_domain}" != x ]; then
+	if [ -n "${OCF_RESKEY_domain}" ]; then
 	    NOVA_HOST=$(uname -n | awk -F. '{print $1}')
 	else
 	    NOVA_HOST=$(uname -n)
@@ -321,14 +321,14 @@ nova_validate() {
     # If the host is configured in nova.conf, check that it's not a FQDN.
     openstack-config --get /etc/nova/nova.conf DEFAULT host 2>/dev/null
     if [ $? = 0 ]; then
-	if [ "x${OCF_RESKEY_domain}" != x ]; then
+	if [ -n "${OCF_RESKEY_domain}" ]; then
 	    short_host=$(uname -n | awk -F. '{print $1}')
-	    if [ "x$NOVA_HOST" != "x${short_host}" ]; then
+	    if [ "$NOVA_HOST" != "${short_host}" ]; then
 		ocf_exit_reason "Invalid Nova host name, must be ${short_host} in order for instance recovery to function"
 		rc=$OCF_ERR_CONFIGURED
 	    fi
 
-	elif [ "x$NOVA_HOST" != "x$(uname -n)" ]; then
+	elif [ "$NOVA_HOST" != "$(uname -n)" ]; then
             ocf_exit_reason "Invalid Nova host name, must be $(uname -n) in order for instance recovery to function"
 	    rc=$OCF_ERR_CONFIGURED
 	fi
